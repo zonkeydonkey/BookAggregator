@@ -2,5 +2,4 @@
 /obj
 Debug/
 Release/
-/.vs
-/.git
+**/.vs
