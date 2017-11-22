@@ -5,6 +5,8 @@ using System.Linq;
 
 namespace Books
 {
+    public delegate bool Predicate<T>(T t);
+
     public class AbstractControlDescriptionProvider<TAbstract, TBase> : TypeDescriptionProvider
     {
         public AbstractControlDescriptionProvider() : base(TypeDescriptor.GetProvider(typeof(TAbstract)))
@@ -107,6 +109,26 @@ namespace Books
         public static IEnumerable<T> AsNotNull<T>(this IEnumerable<T> original)
         {
             return original ?? new T[0];
+        }
+
+        public static void Copy<T>(this List<T> source, List<T> target)
+        {
+            ConditionalCopy<T>(source, target, delegate (T t) { return true; });
+        }
+
+        public static void ConditionalCopy<T>(this List<T> source, List<T> target, Predicate<T> p)
+        {
+            if (target == null)
+                target = new List<T>();
+
+            if (source != null)
+            {
+                foreach (T t in source)
+                {
+                    if(p(t))
+                        target.Add(t);
+                }
+            }
         }
     }
 }

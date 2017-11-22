@@ -10,6 +10,9 @@ namespace Books
     {
         private BookDocument bookDocument = null;
 
+        private static int FilterItemMenuIndex = 1;
+        private static int FilterItemMenuChildNb = 3;
+
         public MainForm()
         {
             this.bookDocument = new BookDocument();
@@ -36,65 +39,43 @@ namespace Books
             newBookSheet.Show();
         }
 
-        private void OnBookCreated(object sender, EventArgs e, Book b)
-        {
-            foreach (Form child in MdiChildren.AsNotNull())
-            {
-                ((IChildForm)child).OnBookCreated(b);
-            }
-        }
-
-        private void OnBookEdited(object sender, EventArgs e, Book edited, Book old)
-        {
-            foreach (Form child in MdiChildren.AsNotNull())
-            {
-                ((IChildForm)child).OnBookEdited(edited, old);
-            }
-        }
-
-        private void OnBookDeleted(object sender, EventArgs e, Book book)
-        {
-            foreach (Form child in MdiChildren.AsNotNull())
-            {
-                ((IChildForm)child).OnBookDeleted(book);
-            }
-        }
-
         private void OnAllFilterClicked(object sender, EventArgs e)
         {
-            BookFilteredSheetForm newBookSheet = new BookFilteredSheetForm(bookDocument, BookFilteredSheetForm.Filter.All)
-            {
-                MdiParent = this
-            };
-            AssignEventHandlers(newBookSheet);
-            newBookSheet.Show();
+            OnFilterClicked(BookFilteredSheetForm.Filter.All);
         }
 
         private void OnBeforeFilterClicked(object sender, EventArgs e)
         {
-            BookFilteredSheetForm newBookSheet = new BookFilteredSheetForm(bookDocument, BookFilteredSheetForm.Filter.Before)
-            {
-                MdiParent = this
-            };
-            AssignEventHandlers(newBookSheet);
-            newBookSheet.Show();
+            OnFilterClicked(BookFilteredSheetForm.Filter.Before);
         }
 
         private void OnAfterFilterClicked(object sender, EventArgs e)
         {
-            BookFilteredSheetForm newBookSheet = new BookFilteredSheetForm(bookDocument, BookFilteredSheetForm.Filter.After)
+            OnFilterClicked(BookFilteredSheetForm.Filter.After);
+        }
+
+        private void OnFilterClicked(BookFilteredSheetForm.Filter filter)
+        {
+            if (ActiveMdiChild.GetType() == typeof(BookFilteredSheetForm))
             {
-                MdiParent = this
-            };
-            AssignEventHandlers(newBookSheet);
-            newBookSheet.Show();
+                BookFilteredSheetForm activeForm = (BookFilteredSheetForm)ActiveMdiChild;
+                activeForm.ChangeFilterType(filter);
+                ResetCheck();
+                SetCheck((int)activeForm.DateFilter);
+            }
+            else
+            {
+                BookFilteredSheetForm newBookSheet = new BookFilteredSheetForm(bookDocument, filter)
+                {
+                    MdiParent = this
+                };
+                AssignEventHandlers(newBookSheet);
+                newBookSheet.Show();
+            }
         }
 
         private void AssignEventHandlers(BookSheetForm sheet)
         {
-            sheet.BookCreated += new Events.BookCreatedEventHandler(OnBookCreated);
-            sheet.BookEdited += new Events.BookEditedEventHandler(OnBookEdited);
-            sheet.BookDeleted += new Events.BookDeletedEventHandler(OnBookDeleted);
             sheet.Closing += new CancelEventHandler(OnChildClosing);
             sheet.Activated += new EventHandler(OnChildActivated);
             sheet.Deactivate += new EventHandler(OnChildDeactivate);
@@ -111,14 +92,44 @@ namespace Books
 
         private void OnChildActivated(object sender, EventArgs e)
         {
-            ToolStrip source = ((IChildForm)this.ActiveMdiChild).GetToolStrip();
-            ToolStripManager.Merge(source, toolStrip);
+            ToolStrip sourceToolStrip = ((IChildForm)this.ActiveMdiChild).GetToolStrip();
+            ToolStripManager.Merge(sourceToolStrip, toolStrip);
+
+            StatusBar sourceStatusBar = ((IChildForm)this.ActiveMdiChild).GetStatusBar();
+            this.Controls.Add(sourceStatusBar);
+            sourceStatusBar.Visible = true;
+
+            if (ActiveMdiChild.GetType() == typeof(BookFilteredSheetForm))
+            {
+                BookFilteredSheetForm activeForm = (BookFilteredSheetForm)ActiveMdiChild;
+                SetCheck((int)activeForm.DateFilter);
+            }
         }
 
         private void OnChildDeactivate(object sender, EventArgs e)
         {
-            ToolStrip source = ((IChildForm)this.ActiveMdiChild).GetToolStrip();
-            ToolStripManager.RevertMerge(toolStrip, source);
+            ToolStrip sourceToolStrip = ((IChildForm)this.ActiveMdiChild).GetToolStrip();
+            ToolStripManager.RevertMerge(toolStrip, sourceToolStrip);
+
+            StatusBar sourceStatusBar = ((IChildForm)this.ActiveMdiChild).GetStatusBar();
+            this.Controls.Remove(sourceStatusBar);
+
+            ResetCheck();
+        }
+
+        private void SetCheck(int index)
+        {
+            ToolStripMenuItem filterItem = (ToolStripMenuItem)menuStrip.Items[FilterItemMenuIndex];
+            ((ToolStripMenuItem)(filterItem).DropDown.Items[index]).Checked = true;
+        }
+
+        private void ResetCheck()
+        {
+            for(int i = 0; i < FilterItemMenuChildNb; ++i)
+            {
+                ToolStripMenuItem filterItem = (ToolStripMenuItem)menuStrip.Items[FilterItemMenuIndex];
+                ((ToolStripMenuItem)(filterItem).DropDown.Items[i]).Checked = false;
+            }
         }
     }
 }

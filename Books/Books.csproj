@@ -79,7 +79,7 @@
       <DependentUpon>BookPicturePicker.cs</DependentUpon>
     </Compile>
     <Compile Include="src\view\IChildForm.cs" />
-    <Compile Include="src\view\Events.cs" />
+    <Compile Include="src\utils\Events.cs" />
     <Compile Include="src\view\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

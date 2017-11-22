@@ -10,6 +10,10 @@ namespace Books
     {
         private List<Book> books;
 
+        public event Events.BookCreatedEventHandler BookCreated;
+        public event Events.BookEditedEventHandler BookEdited;
+        public event Events.BookDeletedEventHandler BookDeleted;
+
         public List<Book> Books
         {
             get { return books; }
@@ -22,7 +26,14 @@ namespace Books
         {
             Book book = new Book(title, author, releaseDate, category);
             Books.Add(book);
+            BookCreated(this, new EventArgs(), book);
             return book;
+        }
+
+        public void InsertBook(Book book)
+        {
+            Books.Add(book);
+            BookCreated(this, new EventArgs(), book);
         }
 
         public Book ReadLast()
@@ -35,48 +46,41 @@ namespace Books
             return Books.Count();
         }
 
-        public Book ReadBook(int index)
+        public Book ReadBook(int id)
         {
-            if (index < 0 || index > Books.Count)
-                return null;
-            return Books[index];
-        }
-
-        public void UpdateBook (Book newBook, Book oldBook)
-        {
-            if (newBook == null || oldBook == null || newBook.Equal(oldBook))
-                return;
-
-            Book updated = GetEquivalent(oldBook);
-            if(updated != null)
+            foreach(Book book in Books)
             {
-                updated.Title = newBook.Title;
-                updated.Author = newBook.Author;
-                updated.ReleaseDate = newBook.ReleaseDate;
-                updated.Category = newBook.Category;
-            }  
-        }
-
-        public Book GetEquivalent(Book compared)
-        {
-            foreach (Book book in Books.AsNotNull())
-            {
-                if (book.Equal(compared))
-                {
+                if (book.Id == id)
                     return book;
-                }
             }
             return null;
         }
 
-        public bool DeleteBook(Book book)
+        public bool UpdateBook (int id, String title, String author, DateTime releaseDate, String category)
         {
-            Book deleted = GetEquivalent(book);
+            Book edited = ReadBook(id);
+            if(edited != null)
+            {
+                edited.Title = title;
+                edited.Author = author;
+                edited.ReleaseDate = releaseDate;
+                edited.Category = category;
+
+                BookEdited(this, new EventArgs(), edited);
+                return true;
+            }
+            return false;  
+        }
+
+        public bool DeleteBook(int id)
+        {
+            Book deleted = ReadBook(id);
 
             if (deleted == null)
                 return false;
 
             Books.Remove(deleted);
+            BookDeleted(this, new EventArgs(), id);
             return true;
         }
     }

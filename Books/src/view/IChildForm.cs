@@ -11,9 +11,7 @@ namespace Books
 
     interface IChildForm
     {
-        void OnBookCreated(Book book);
-        void OnBookEdited(Book newBook, Book oldBook);
-        void OnBookDeleted(Book book);
         ToolStrip GetToolStrip();
+        StatusBar GetStatusBar();
     }
 }

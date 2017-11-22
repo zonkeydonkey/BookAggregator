@@ -7,19 +7,35 @@ namespace Books
 {
     using Book = BookModel;
 
-    public partial class BookDataEntryForm : Form
+    public abstract partial class BookDataEntryForm : Form
     {
-        protected BookDocument bookDocument = null;
+        public String Title
+        {
+            get { return titleTextBox.Text; }
+        }
+
+        public String Author
+        {
+            get { return authorTextBox.Text; }
+        }
+
+        public DateTime ReleaseDate
+        {
+            get { return dateTimePicker.Value; }
+        }
+
+        public String Category
+        {
+            get { return picturePicker.Description; }
+        }
 
         public BookDataEntryForm()
         {
-            bookDocument = null;
             InitializeComponent();
         }
 
         public BookDataEntryForm(BookDocument bookDocument)
         {
-            this.bookDocument = bookDocument;
             InitializeComponent();
             //this.picturePicker.ImageChanged += new PicturePicker.ImageChangedEventHandler(OnImageChanged);
         }
@@ -32,6 +48,15 @@ namespace Books
         private void OnCancelButtonClicked(object sender, EventArgs e)
         {
             Close();
+        }
+
+        protected void OnOKButtonClicked(object sender, EventArgs e)
+        {
+            if (ValidateChildren())
+            {
+                DialogResult = DialogResult.OK;
+                Close();
+            }
         }
 
         private void OnTitleValidating(object sender, CancelEventArgs e)
@@ -77,7 +102,7 @@ namespace Books
             errorProvider.SetError(dateTimePicker, "");
         }
 
-        private void OnCategoryClick(object sender, EventArgs e)
+        private void OnCategoryClick(object sender, EventArgs e) // TODO
         {
             picturePicker.OnClick(sender, e);
             Invalidate();

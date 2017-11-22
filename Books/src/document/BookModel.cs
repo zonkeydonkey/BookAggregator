@@ -5,6 +5,17 @@ namespace Books
     [Serializable]
     public class BookModel
     {
+        private int id;
+        private static int idGenerator = 0;
+
+        public int Id
+        {
+            get
+            {
+                return id;
+            }
+        }
+
         public String Title
         {
             get;
@@ -31,10 +42,11 @@ namespace Books
 
         public BookModel(String title, String author, DateTime releaseDate, String category)
         {
-            this.Title = title;
-            this.Author = author;
-            this.ReleaseDate = releaseDate;
-            this.Category = category;
+            id = idGenerator++;
+            Title = title;
+            Author = author;
+            ReleaseDate = releaseDate;
+            Category = category;
         }
 
         public bool Equal(BookModel compared)

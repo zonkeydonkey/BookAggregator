@@ -37,7 +37,6 @@
             this.ClientSize = new System.Drawing.Size(793, 393);
             this.Name = "BookFilteredSheetForm";
             this.Text = "BookFilteredSheetForm";
-            this.Load += new System.EventHandler(this.OnBookSheetFormLoad);
             this.ResumeLayout(false);
 
         }
