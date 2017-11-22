@@ -76,18 +76,8 @@ namespace Books
 
         private void AssignEventHandlers(BookSheetForm sheet)
         {
-            sheet.Closing += new CancelEventHandler(OnChildClosing);
             sheet.Activated += new EventHandler(OnChildActivated);
             sheet.Deactivate += new EventHandler(OnChildDeactivate);
-        }
-
-        private void OnChildClosing(object sender, CancelEventArgs e)
-        {
-            if (MdiChildren.Length == 1)
-            {
-                e.Cancel = true;
-                MessageBox.Show("At least one sheet must be open.");
-            }
         }
 
         private void OnChildActivated(object sender, EventArgs e)

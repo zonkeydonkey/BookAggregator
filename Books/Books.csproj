@@ -72,12 +72,6 @@
       <DependentUpon>BookDataEntryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\document\BookDocument.cs" />
-    <Compile Include="src\view\BookPicturePicker.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="src\view\BookPicturePicker.Designer.cs">
-      <DependentUpon>BookPicturePicker.cs</DependentUpon>
-    </Compile>
     <Compile Include="src\view\IChildForm.cs" />
     <Compile Include="src\utils\Events.cs" />
     <Compile Include="src\view\MainForm.cs">
@@ -113,9 +107,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\view\BookFilteredSheetForm.resx">
       <DependentUpon>BookFilteredSheetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\view\BookPicturePicker.resx">
-      <DependentUpon>BookPicturePicker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\view\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

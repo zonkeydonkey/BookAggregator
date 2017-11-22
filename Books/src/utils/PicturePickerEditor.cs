@@ -23,14 +23,14 @@ namespace Books
             IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
             if (edSvc != null)
             {
-                PicturePicker picturePicker = new BookPicturePicker();
+                PicturePicker picturePicker = new PicturePicker();
                 edSvc.DropDownControl(picturePicker);
                 try
                 {
                     return picturePicker.Description;
                 } catch (NoImageFoundException nife)
                 {
-                    MessageBox.Show("No images for picture picker control found.");
+                    MessageBox.Show(nife.Message + "No images for picture picker control found.");
                 }
                 
             }

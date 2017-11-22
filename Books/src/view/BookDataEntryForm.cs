@@ -7,7 +7,7 @@ namespace Books
 {
     using Book = BookModel;
 
-    public abstract partial class BookDataEntryForm : Form
+    public partial class BookDataEntryForm : Form
     {
         public String Title
         {
@@ -32,18 +32,19 @@ namespace Books
         public BookDataEntryForm()
         {
             InitializeComponent();
+            picturePicker.Parent = this;
         }
 
         public BookDataEntryForm(BookDocument bookDocument)
         {
             InitializeComponent();
-            //this.picturePicker.ImageChanged += new PicturePicker.ImageChangedEventHandler(OnImageChanged);
+            picturePicker.Parent = this;
         }
 
-        /*private void OnImageChanged(object sender, EventArgs args, Image image, String description)
+        private void OnImageChanged(object sender, EventArgs args)
         {
-            this.Refresh();
-        }*/
+            picturePicker.Refresh();
+        }
 
         private void OnCancelButtonClicked(object sender, EventArgs e)
         {
@@ -100,12 +101,6 @@ namespace Books
         private void OnDateValidated(object sender, EventArgs e)
         {
             errorProvider.SetError(dateTimePicker, "");
-        }
-
-        private void OnCategoryClick(object sender, EventArgs e) // TODO
-        {
-            picturePicker.OnClick(sender, e);
-            Invalidate();
         }
     }
 }

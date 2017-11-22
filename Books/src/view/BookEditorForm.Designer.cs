@@ -33,11 +33,7 @@
             // 
             // picturePicker
             // 
-            this.picturePicker.Description = "POETRY";
-            // 
-            // OKButton
-            // 
-            this.OKButton.Click += new System.EventHandler(this.OnOKButtonClicked);
+            this.picturePicker.Description = "SCIENCE-FICTION";
             // 
             // BookEditorForm
             // 

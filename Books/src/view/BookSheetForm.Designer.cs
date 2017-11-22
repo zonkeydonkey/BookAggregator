@@ -161,6 +161,7 @@
             this.Name = "BookSheetForm";
             this.Text = "Books Sheet";
             this.Load += new System.EventHandler(this.OnBookSheetFormLoad);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(OnClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);

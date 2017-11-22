@@ -8,35 +8,33 @@ using System.Windows.Forms;
 namespace Books
 {
     [TypeDescriptionProvider(typeof(AbstractControlDescriptionProvider<PicturePicker, UserControl>))]
-    public abstract partial class PicturePicker : UserControl
+    public partial class PicturePicker : UserControl
     {
-        public abstract ref List<Tuple<String, Image>> Images
-        {
-            get;
-        }
+        public static readonly List<Tuple<String, Image>> Images = new List<Tuple<String, Image>> {
+            new Tuple<String, Image> ("POETRY", Properties.Resources.poezja),
+            new Tuple<String, Image> ("FANTASY", Properties.Resources.lotr),
+            new Tuple<String, Image> ("SCIENCE-FICTION", Properties.Resources.solaris)
+        };
         private int currentImage = 0;
 
         public int CurrentImageId
         {
             get
             {
-                if (ListUtils.AnyOrNotNull<Tuple<String, Image>>(Images))
-                    return currentImage;
-                throw new NoImageFoundException("Error while getting displayed image. No image available for picturePicker control.");
+                return currentImage;
             }
             private set
             {
-                if (ListUtils.AnyOrNotNull<Tuple<String, Image>>(Images) && value < Images.Count)
+                if (value < Images.Count)
                     currentImage = value;
                 else
                     throw new NoImageFoundException("No images available for picturePicker control.");
             }
         }
 
-        public delegate void ImageChangedEventHandler(object sender, EventArgs args, Image image, String description);
-        public event ImageChangedEventHandler ImageChanged;
+        public event EventHandler ImageChanged;
 
-        protected PicturePicker()
+        public PicturePicker()
         {  
             InitializeComponent();
         }    
@@ -50,24 +48,22 @@ namespace Books
         {
             get
             {
-                if (ListUtils.AnyOrNotNull<Tuple<String, Image>>(Images))
-                    return Images[currentImage].Item1;
-                throw new NoImageFoundException("Error while getting displayed image. No image available for picturePicker control.");
+                return Images[CurrentImageId].Item1;
             }
             set
             {
                 int index = ListUtils.Find<String, Image>(Images, value);
                 if (index < 0)
+                {
                     throw new NoImageFoundException("No images available for picturePicker control.");
-                currentImage = index;
+                }
+                    
+                CurrentImageId = index;
 
-                /*if(DesignMode)
-                    ImageChanged(this, new EventArgs(), Images[CurrentImageId].Item2, value);*/
                 if (DesignMode && Parent != null)
                 {
                     Parent.Refresh();
                 }
-
             }
         }
 
@@ -81,16 +77,15 @@ namespace Books
             }
             catch (NoImageFoundException ex)
             {
-                MessageBox.Show("There were some problems reading picture picker control's images.");
+                MessageBox.Show(ex.Message + "There were some problems reading picture picker control's images.");
             }
         }
 
         public void OnClick(object sender, EventArgs e)
         {
-            ++currentImage;
-            currentImage %= Images.Count;
+            CurrentImageId = (CurrentImageId + 1) % Images.Count;
             Invalidate();
-            //ImageChanged(sender, e, Images[CurrentImageId].Item2, Description);
+            ImageChanged?.Invoke(this, new EventArgs());
         }
     }
 }

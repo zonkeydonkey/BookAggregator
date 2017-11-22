@@ -20,10 +20,11 @@ namespace Books
             try
             {
                 picturePicker.Description = selectedCategory;
+                picturePicker.Parent = this;
             }
             catch (NoImageFoundException ex)
             {
-                MessageBox.Show("There was some problems with edited book's category");
+                MessageBox.Show(ex.Message + "There was some problems with edited book's category");
             }
         }
     }

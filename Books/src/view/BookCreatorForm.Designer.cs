@@ -33,8 +33,7 @@
             // 
             // picturePicker
             // 
-            this.picturePicker.Description = "SCIENCE-FICTION";
-            this.OKButton.Click += new System.EventHandler(OnOKButtonClicked);
+            this.picturePicker.Description = "FANTASY";
             // 
             // BookCreatorForm
             // 

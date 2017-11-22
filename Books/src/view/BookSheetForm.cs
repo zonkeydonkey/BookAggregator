@@ -73,7 +73,7 @@ namespace Books
             }
             catch (NoNodeSelectedException ex)
             {
-                MessageBox.Show("Select edited book first");
+                MessageBox.Show(ex.Message + "Select edited book first");
             }
         }
 
@@ -181,7 +181,7 @@ namespace Books
             }
             catch (NoNodeSelectedException ex)
             {
-                MessageBox.Show("Select deleted book first");
+                MessageBox.Show(ex.Message + "Select deleted book first");
             }
         }
 
@@ -227,6 +227,18 @@ namespace Books
                 }
             }
             return false;
+        }
+
+        public void OnClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                if (MdiParent != null && MdiParent.MdiChildren.Length < 2)
+                {
+                    MessageBox.Show("At least one sheet must be open.");
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }

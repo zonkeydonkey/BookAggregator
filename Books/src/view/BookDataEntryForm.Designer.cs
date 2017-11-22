@@ -44,7 +44,7 @@ namespace Books
             this.OKButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.picturePicker = new Books.BookPicturePicker();
+            this.picturePicker = new Books.PicturePicker();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -119,6 +119,7 @@ namespace Books
             this.OKButton.TabIndex = 8;
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
+            this.OKButton.Click += new System.EventHandler(this.OnOKButtonClicked);
             // 
             // cancelButton
             // 
@@ -137,19 +138,19 @@ namespace Books
             // 
             // picturePicker
             // 
-            this.picturePicker.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.picturePicker.Description = "FANTASY";
-            this.picturePicker.Location = new System.Drawing.Point(300, 104);
+            this.picturePicker.Description = "POETRY";
+            this.picturePicker.Location = new System.Drawing.Point(355, 105);
             this.picturePicker.Name = "picturePicker";
-            this.picturePicker.Size = new System.Drawing.Size(100, 70);
-            this.picturePicker.TabIndex = 0;
-            this.picturePicker.Click += new System.EventHandler(this.OnCategoryClick);
+            this.picturePicker.Size = new System.Drawing.Size(110, 92);
+            this.picturePicker.TabIndex = 10;
+            this.picturePicker.ImageChanged += new System.EventHandler(this.OnImageChanged);
             // 
             // BookDataEntryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(496, 400);
+            this.Controls.Add(this.picturePicker);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.categoryLabel);
@@ -159,7 +160,6 @@ namespace Books
             this.Controls.Add(this.authorTextBox);
             this.Controls.Add(this.titleTextBox);
             this.Controls.Add(this.dateTimePicker);
-            this.Controls.Add(this.picturePicker);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "BookDataEntryForm";
             this.Text = "Create Book";
@@ -170,8 +170,6 @@ namespace Books
         }
 
         #endregion
-
-        protected BookPicturePicker picturePicker;
         protected System.Windows.Forms.DateTimePicker dateTimePicker;
         protected System.Windows.Forms.TextBox titleTextBox;
         protected System.Windows.Forms.TextBox authorTextBox;
@@ -182,5 +180,6 @@ namespace Books
         protected System.Windows.Forms.Button OKButton;
         protected System.Windows.Forms.Button cancelButton;
         protected System.Windows.Forms.ErrorProvider errorProvider;
+        protected PicturePicker picturePicker;
     }
 }
