@@ -8,10 +8,8 @@ namespace Books
     {
         Book CreateBook(String title, String author, DateTime releaseDate, String category);
         void InsertBook(Book book);
-        Book ReadLast();
         int ReadBookNb();
-        Book ReadBook(int index);
-        bool UpdateBook(int id, String title, String author, DateTime releaseDate, String category);
-        bool DeleteBook(int id);
+        bool UpdateBook(Book edited, String title, String author, DateTime releaseDate, String category);
+        bool DeleteBook(Book deleted);
     }
 }

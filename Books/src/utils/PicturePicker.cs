@@ -37,7 +37,7 @@ namespace Books
         public PicturePicker()
         {  
             InitializeComponent();
-        }    
+        }
 
         [
         Category("Picture picker control"),

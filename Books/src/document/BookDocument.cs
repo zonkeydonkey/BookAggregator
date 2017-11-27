@@ -36,29 +36,13 @@ namespace Books
             BookCreated(this, new EventArgs(), book);
         }
 
-        public Book ReadLast()
-        {
-            return Books.Last();
-        }
-
         public int ReadBookNb()
         {
             return Books.Count();
         }
 
-        public Book ReadBook(int id)
+        public bool UpdateBook (Book edited, String title, String author, DateTime releaseDate, String category)
         {
-            foreach(Book book in Books)
-            {
-                if (book.Id == id)
-                    return book;
-            }
-            return null;
-        }
-
-        public bool UpdateBook (int id, String title, String author, DateTime releaseDate, String category)
-        {
-            Book edited = ReadBook(id);
             if(edited != null)
             {
                 edited.Title = title;
@@ -72,15 +56,13 @@ namespace Books
             return false;  
         }
 
-        public bool DeleteBook(int id)
+        public bool DeleteBook(Book deleted)
         {
-            Book deleted = ReadBook(id);
-
             if (deleted == null)
                 return false;
 
             Books.Remove(deleted);
-            BookDeleted(this, new EventArgs(), id);
+            BookDeleted(this, new EventArgs(), deleted);
             return true;
         }
     }

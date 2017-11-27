@@ -102,7 +102,7 @@ namespace Books
         {
             if(filterPredicate(book))
             {
-                TreeNode editedNode = GetNode(book.Id);
+                TreeNode editedNode = GetNode(book);
                 if (editedNode != null)
                     base.OnBookEdited(sender, e, book);
                 else
@@ -110,23 +110,7 @@ namespace Books
             }
             else
             {
-                OnBookDeleted(sender, e, book.Id);
-            }
-        }
-
-        public override void OnBookDeleted(object sender, EventArgs e, int id)
-        {
-            foreach(Book book in books.AsNotNull())
-            {
-                if(book.Id == id)
-                {
-                    TreeNode node = GetNode(id);
-                    treeView.Nodes.Remove(node);
-                    books.Remove(book);
-                    --nbElements;
-                    nbElementStatusBar.Text = ElementNbPrefix + nbElements;
-                    return;
-                }
+                OnBookDeleted(sender, e, book);
             }
         }
 

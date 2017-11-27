@@ -24,6 +24,7 @@ namespace Books
             if (edSvc != null)
             {
                 PicturePicker picturePicker = new PicturePicker();
+                picturePicker.Description = (String)dsc;
                 edSvc.DropDownControl(picturePicker);
                 try
                 {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace Books
 {
     using Book = BookModel;
 
-    public partial class BookDataEntryForm : Form
+    // There may be some errors during work with Visual Studio Designer due to tool's bugs - to avoid them, comment 'abstract' keyword 
+    public abstract partial class BookDataEntryForm : Form
     {
         public String Title
         {

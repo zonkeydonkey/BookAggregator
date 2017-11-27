@@ -8,6 +8,6 @@ namespace Books
     {
         public delegate void BookCreatedEventHandler(object sender, EventArgs args, Book book);
         public delegate void BookEditedEventHandler(object sender, EventArgs args, Book book);
-        public delegate void BookDeletedEventHandler(object sender, EventArgs args, int id);
+        public delegate void BookDeletedEventHandler(object sender, EventArgs args, Book book);
     }
 }

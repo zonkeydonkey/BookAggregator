@@ -33,7 +33,7 @@
             // 
             // picturePicker
             // 
-            this.picturePicker.Description = "FANTASY";
+            this.picturePicker.Description = "POETRY";
             // 
             // BookCreatorForm
             // 

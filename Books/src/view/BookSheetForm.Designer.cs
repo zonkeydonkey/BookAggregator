@@ -136,6 +136,7 @@
             // 
             this.treeView.Location = new System.Drawing.Point(12, 56);
             this.treeView.Name = "treeView";
+            this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView.Size = new System.Drawing.Size(617, 370);
             this.treeView.TabIndex = 2;
             // 
